@@ -3,9 +3,8 @@ class CaesarCipher
   def create_key(shift, *character_sets)
     key = {}
     character_sets.each do |set|
-      key_pairs = set.zip(set.rotate(shift))
-      key_pairs_hash = key_pairs.to_h
-      key = key.merge(key_pairs_hash)
+      key_pairs = set.zip(set.rotate(shift)).to_h
+      key = key.merge(key_pairs)
     end
   key
   end
@@ -23,9 +22,3 @@ class CaesarCipher
     find_solution(key, message)
   end
 end
-
-cipher = CaesarCipher.new
-encrypted = cipher.solve('The Barbarians are attacking tomorrow, 11/3', 2)
-puts "  -> Encrypted Message: #{encrypted}"
-original = cipher.solve(encrypted, -2)
-puts "  -> Original Message: #{original}"
