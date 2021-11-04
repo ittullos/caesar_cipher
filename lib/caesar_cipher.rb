@@ -1,6 +1,17 @@
+LOWER_CASE = ('a'..'z').to_a
+UPPER_CASE = ('A'..'Z').to_a
+NUMERICAL = ('0'..'9').to_a
+
 class CaesarCipher
 
-  def create_key(shift, *character_sets)
+  def solve(message, shift)
+    key = key(shift,LOWER_CASE,UPPER_CASE,NUMERICAL)
+    solution(key, message)
+  end
+
+  private
+
+  def key(shift, *character_sets)
     key = {}
     character_sets.each do |set|
       key_pairs = set.zip(set.rotate(shift)).to_h
@@ -9,16 +20,7 @@ class CaesarCipher
   key
   end
 
-  def find_solution(key, message)
-    solution = message.chars.map { |char| key.fetch(char, char) }
-    solution.join
-  end
-
-  def solve(message, shift)
-    lower_case = ('a'..'z').to_a
-    upper_case = ('A'..'Z').to_a
-    numerical = ('0'..'9').to_a
-    key = create_key(shift, lower_case, upper_case, numerical)
-    find_solution(key, message)
+  def solution(key, message)
+    message.chars.map {|char| key.fetch(char, char)}.join
   end
 end

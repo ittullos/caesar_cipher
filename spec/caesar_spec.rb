@@ -1,4 +1,4 @@
-require './lib/caesar_cipher.rb'
+require './caesar_cipher'
 
 describe 'caesar cipher' do
   before { @cipher = CaesarCipher.new }
