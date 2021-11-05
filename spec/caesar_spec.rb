@@ -14,10 +14,6 @@ describe 'solve' do
     expect(@cipher.solve("ccc", -2)).to eql("aaa")
   end
 
-  it 'leaves uppercase and lowercase intact' do
-    expect(@cipher.solve("aBcD", 3)).to eql("dEfG")
-  end
-
   it 'leaves punctuation and symbols intact' do
     expect(@cipher.solve("abc!@><", 3)).to eql("def!@><")
   end
@@ -27,10 +23,30 @@ describe 'solve' do
   end
 
   it 'wraps from the end of the alphabet to the beginning' do
-    expect(@cipher.solve("zyz", 2)).to eql("bab")
+    expect(@cipher.solve("xyz", 2)).to eql("zab")
   end
 
   it 'wraps from the beginning of the alphabet to the end' do
-    expect(@cipher.solve("aba", -2)).to eql("yzy")
+    expect(@cipher.solve("abc", -2)).to eql("yza")
+  end
+
+  it 'leaves uppercase and lowercase intact when wrapping to end' do
+    expect(@cipher.solve("aBcD", -3)).to eql("xYzA")
+  end
+
+  it 'leaves uppercase and lowercase intact when wrapping to beginning' do
+    expect(@cipher.solve("xYzA", 3)).to eql("aBcD")
+  end
+
+  it 'handles numbers correctly when wrapping to beginning' do
+    expect(@cipher.solve("789", 2)).to eql("901")
+  end
+
+  it 'handles numbers correctly when wrapping to end' do
+    expect(@cipher.solve("123", -2)).to eql("901")
+  end
+
+  it 'converts a message and deciphers message back into original' do
+    expect(@cipher.solve(@cipher.solve("The British are coming!!", 2), -2)).to eql("The British are coming!!")
   end
 end
